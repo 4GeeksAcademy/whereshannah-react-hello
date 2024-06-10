@@ -1,12 +1,20 @@
-//import react into the bundle
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-
-// include your styles into the webpack bundle
 import "../styles/index.css";
+import SecondsCounter from "./component/secondscounter.jsx";
 
-//import your own components
-import Home from "./component/home.jsx";
+function App() {
+    const [seconds, setSeconds] = useState(0);
 
-//render your react application
-ReactDOM.render(<Home />, document.querySelector("#app"));
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSeconds(prevSeconds => prevSeconds + 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    return <SecondsCounter seconds={seconds} />;
+}
+
+ReactDOM.render(<App />, document.querySelector("#app"));
